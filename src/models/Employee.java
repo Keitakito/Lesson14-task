@@ -13,27 +13,19 @@ import javax.persistence.Table;
 
 @Table(name = "employees")
 @NamedQueries({
-    @NamedQuery(
-            name = "getAllEmployees",
-            query = "SELECT e FROM Employee AS e ORDER BY e.id DESC"
-            ),
-    @NamedQuery(
-            name = "getEmployeesCount",
-            query ="SELECT COUNT(e) FROM Employee AS e WHERE e.code = :code"
-            ),
-    @NamedQuery(
-            name = "checkLoginCodeAndPassword",
-            query = "SELECT e FROM Employee AS e WHERE e.delete_flag = 0 AND e.code = :code AND e.password = :pass"
-            )
+        @NamedQuery(name = "getAllEmployees", query = "SELECT e FROM Employee AS e ORDER BY e.id DESC"),
+        @NamedQuery(name = "getEmployeesCount", query = "SELECT COUNT(e) FROM Employee AS e"),
+        @NamedQuery(name = "checkRegisteredCode", query = "SELECT COUNT(e) FROM Employee AS e WHERE e.code = :code"),
+        @NamedQuery(name = "checkLoginCodeAndPassword", query = "SELECT e FROM Employee AS e WHERE e.delete_flag = 0 AND e.code = :code AND e.password = :pass")
 })
 @Entity
 public class Employee {
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "code", nullable = false, unique =true)
+    @Column(name = "code", nullable = false, unique = true)
     private String code;
 
     @Column(name = "name", nullable = false)
@@ -43,7 +35,7 @@ public class Employee {
     private String password;
 
     @Column(name = "admin_flag", nullable = false)
-    private String admin_flag;
+    private Integer admin_flag;
 
     @Column(name = "created_at", nullable = false)
     private Timestamp created_at;
@@ -86,11 +78,11 @@ public class Employee {
         this.password = password;
     }
 
-    public String getAdmin_flag() {
+    public Integer getAdmin_flag() {
         return admin_flag;
     }
 
-    public void setAdmin_flag(String admin_flag) {
+    public void setAdmin_flag(Integer admin_flag) {
         this.admin_flag = admin_flag;
     }
 
@@ -117,8 +109,5 @@ public class Employee {
     public void setDelete_flag(Integer delete_flag) {
         this.delete_flag = delete_flag;
     }
-
-
-
 
 }
